@@ -1,0 +1,40 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+{# requires jquery-qrcode v0.14.0 - https://larsjung.de/jquery-qrcode/ #}
+
+<p>
+    <br />
+    <button id="create_invoice" class="btn">create invoice</button>
+</p>
+<div id="output"></div>
+<div id="qrcode"></div>
+
+    {% include 'ws_js.html' %}
+
+<script>
+$('#create_invoice').click(function(){
+    inv_req = { msatoshi: 10000000, description: "asd", metadata: "{'sometext':'meta'}"};
+    addData(inv_req);
+})
+
+function addData(data){
+     console.log(data);
+     $.post( "/ln/invoice", inv_req)
+          .done(function( data ) {
+          $('#output').text( data['bolt11']);
+          let options = [];
+          options['text'] = data['bolt11'];
+          options['radius'] = 0.5;
+          $('#qrcode').qrcode(options);
+          console.log(data['payment_hash']);
+          let ph = data['payment_hash'];
+          let a = { message_type: "wait_invoice", payment_hash : ph } ;
+          ws.send(JSON.stringify(a));
+      });
+}
+
+</script>
+
+{% endblock content %}

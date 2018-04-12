@@ -1,0 +1,19 @@
+<script>
+$(function(){
+  ws = new WebSocket('ws://' +  window.location.host + '/lightning/ws');
+
+  ws.onmessage = function(message) {
+    console.log(message.data)
+
+    let mdata = JSON.parse(message.data)
+
+     if (mdata['message'] == "paid"){
+          alert('invoice paid!');
+        }
+      };
+
+    ws.onopen = function() {
+      ws.send('connect');
+    };
+});
+</script>

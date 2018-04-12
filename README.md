@@ -6,7 +6,8 @@ Django-charged is a REST / websocket app that allows
 
 Install:
 
-   pip install django-charged
+    clone into your project folder /charged/
+
 
 
 django-charged uses Channels (websockets) to communicate to the browser
@@ -18,6 +19,7 @@ config:
     #add to installed apps:
 
         'charged',
+        ... 
 
 
     # location of your lightning-rpc
@@ -38,20 +40,22 @@ config:
 
 
 
+
 urls.py:    
-    url(r'^ln', include('charged.urls')),
+     url(r'^ln', include('charged.urls')),
 
  (This also includes the Demo  /ln/demo )
 
 
 The Worker process is used for monitoring the payments.
 Start the worker process:
-   ./manage.py runworker lnws
+     ./manage.py runworker lnws
 
 
 Access to REST-api is can be restriced. Some Views  have the
 @method_decorator(local_only, ...)  that restricts acces to the local machine only.
 Acces can be further restricted by adding Views that proxy to the API.
+
 
 
 
