@@ -1,0 +1,12 @@
+*.py[co]
+*.sw[po]
+*.egg*
+.coverage
+pip-log.txt
+.DS_Store
+tmp/*
+__pycache__/*
+*~
+*.log
+*.db
+
