@@ -50,7 +50,8 @@ urls.py:
 
      url(r'^ln/', include('charged.urls')),
 
- (This also includes the Demo  /ln/demo )
+ This also includes the Demo  /ln/demo , which requires 
+ jquery-qrcode-0.14.0.js and jquery 
 
 
 The Worker process is used for monitoring the payments.
