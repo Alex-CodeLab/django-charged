@@ -48,7 +48,7 @@ config:
 
 urls.py:    
 
-     url(r'^ln', include('charged.urls')),
+     url(r'^ln/', include('charged.urls')),
 
  (This also includes the Demo  /ln/demo )
 
