@@ -62,8 +62,8 @@ Start the worker process:
 
 
 Access to REST-api is can be restriced. Some Views  have the
-@method_decorator(local_only, ...)  that restricts acces to the local machine only.
-Acces can be further restricted by adding Views that proxy to the API.
+`@method_decorator(local_only, ...)`  that restricts access to the local machine only.
+Access can be further restricted by adding Views that proxy to the API.
 
 
 ## REST APi
