@@ -22,7 +22,7 @@ class LncConsumer(AsyncWebsocketConsumer):
         await self.accept()
         await self.channel_layer.group_send(self.chan_hash, {
                 'type': 'chan_message',
-                'message': 'message'
+                'message': self.chan_hash
             })
 
 
@@ -58,12 +58,12 @@ class LncConsumer(AsyncWebsocketConsumer):
         try:
             await self.channel_layer.group_discard(
                 self.self.chan_hash,
-                self.channel_name )
+                self.channel_name)
         except:
             pass
 
-
-@method_decorator(postpone, 'waitinvoice')
+# use decorator only when using ./manage runserver
+# @method_decorator(postpone, 'waitinvoice')
 class WorkerConsumer(AsyncConsumer):
 
     def waitinvoice(self, message):
