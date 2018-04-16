@@ -46,7 +46,7 @@ class Ln(LightningRpc):
 
 
     def invoices_list(self):
-        invoices_json = serializers.serialize('json', Invoice.objects.all(), fields=('label','msatoshi','rhash','status'))
+        invoices_json = serializers.serialize('json', Invoice.objects.all(), fields=('label', 'msatoshi','rhash','status'))
         invoices = json.loads(invoices_json)
         for invoice in invoices:
             del invoice['pk']

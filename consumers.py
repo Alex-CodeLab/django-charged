@@ -10,19 +10,20 @@ import json
 
 class LncConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        try:
-            self.chan_hash = self.scope['session']['_auth_user_hash']
-        except:
-            self.chan_hash = str(uuid.uuid4())
+        #try:
+        #    self.chan_hash = self.scope['session']['_auth_user_hash']
+        #except:
+        self.chan_hash = str(uuid.uuid4())
+        self.chan_hash = self.chan_name
 
         await self.channel_layer.group_add(
             self.chan_hash,
             self.channel_name
         )
         await self.accept()
-        await self.channel_layer.group_send(self.chan_hash, {
+        await self.channel_layer.group_send(self.chan_name, {
                 'type': 'chan_message',
-                'message': 'message'
+                'message': self.chan_name
             })
 
 
@@ -58,15 +59,15 @@ class LncConsumer(AsyncWebsocketConsumer):
         try:
             await self.channel_layer.group_discard(
                 self.self.chan_hash,
-                self.channel_name )
+                self.channel_name)
         except:
             pass
 
-
-@method_decorator(postpone, 'waitinvoice')
+# use decorator only when using ./manage runserver
+# @method_decorator(postpone, 'waitinvoice')
 class WorkerConsumer(AsyncConsumer):
 
-    def waitinvoice(self, message):
+    async def waitinvoice(self, message):
         params = {}
         params['payment_hash'] = message['payment_hash']
         try:
@@ -74,11 +75,10 @@ class WorkerConsumer(AsyncConsumer):
             if 'paid_at' in result.keys():
                 Invoice.objects.filter(rhash=params['payment_hash']).update(status=result['status'], pay_index=result['pay_index'])
 
-                async_to_sync(self.channel_layer.group_send)(message['group_id'], {
+                await self.channel_layer.group_send(message['group_id'], {
                     'type': 'chan_message',
                     'message': "paid"
                 })
         except:
             # error or timeout
             pass
-
