@@ -73,6 +73,7 @@ class WorkerConsumer(AsyncConsumer):
             result = Ln().invoice_wait(params)
             if 'paid_at' in result.keys():
                 Invoice.objects.filter(rhash=params['payment_hash']).update(status=result['status'], pay_index=result['pay_index'])
+
                 async_to_sync(self.channel_layer.group_send)(message['group_id'], {
                     'type': 'chan_message',
                     'message': "paid"

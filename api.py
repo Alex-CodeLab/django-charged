@@ -14,7 +14,7 @@ class Ln(LightningRpc):
 
 
     def invoice_create(self, params):
-        invoice = self.invoice(params['msatoshi'], params['label'], params['description'])
+        invoice = self.invoice(params['msatoshi'], params['label'], params['description'], params['expiry'])
 
         Invoice.objects.create(rhash=invoice['payment_hash'],
                                msatoshi=params['msatoshi'],
