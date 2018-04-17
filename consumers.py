@@ -14,15 +14,16 @@ class LncConsumer(AsyncWebsocketConsumer):
         #    self.chan_hash = self.scope['session']['_auth_user_hash']
         #except:
         self.chan_hash = str(uuid.uuid4())
+        self.chan_hash = self.chan_name
 
         await self.channel_layer.group_add(
             self.chan_hash,
             self.channel_name
         )
         await self.accept()
-        await self.channel_layer.group_send(self.chan_hash, {
+        await self.channel_layer.group_send(self.chan_name, {
                 'type': 'chan_message',
-                'message': self.chan_hash
+                'message': self.chan_name
             })
 
 
