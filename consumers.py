@@ -10,10 +10,10 @@ import json
 
 class LncConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        try:
-            self.chan_hash = self.scope['session']['_auth_user_hash']
-        except:
-            self.chan_hash = str(uuid.uuid4())
+        #try:
+        #    self.chan_hash = self.scope['session']['_auth_user_hash']
+        #except:
+        self.chan_hash = str(uuid.uuid4())
 
         await self.channel_layer.group_add(
             self.chan_hash,
