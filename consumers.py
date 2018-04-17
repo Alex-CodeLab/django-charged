@@ -66,7 +66,7 @@ class LncConsumer(AsyncWebsocketConsumer):
 # @method_decorator(postpone, 'waitinvoice')
 class WorkerConsumer(AsyncConsumer):
 
-    def waitinvoice(self, message):
+    async def waitinvoice(self, message):
         params = {}
         params['payment_hash'] = message['payment_hash']
         try:
@@ -74,11 +74,10 @@ class WorkerConsumer(AsyncConsumer):
             if 'paid_at' in result.keys():
                 Invoice.objects.filter(rhash=params['payment_hash']).update(status=result['status'], pay_index=result['pay_index'])
 
-                async_to_sync(self.channel_layer.group_send)(message['group_id'], {
+                await self.channel_layer.group_send(message['group_id'], {
                     'type': 'chan_message',
                     'message': "paid"
                 })
         except:
             # error or timeout
             pass
-
