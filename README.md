@@ -45,6 +45,10 @@ config:
 
 
 
+Check if the connection to the LIGHTNING_RPC is working:
+
+     ./manage lightning
+     `{"network": "testnet", "id": "03ef12386d4f39b8bc83e82bbad02579 ....`
 
 
 urls.py:    
@@ -64,6 +68,7 @@ Start the worker process:
 Access to REST-api is can be restriced. Some Views  have the
 `@method_decorator(local_only, ...)`  that restricts access to the local machine only.
 Access can be further restricted by adding Views that proxy to the API.
+
 
 
 ## REST APi
@@ -98,4 +103,5 @@ Send the 'wait_invoice' command to be notified over WS when the invoice is paid.
 
     var mes = { message_type: "wait_invoice", payment_hash : ph };
     ws.send(JSON.stringify(mes)) ;
-    
+
+
