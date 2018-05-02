@@ -33,6 +33,7 @@ class Invoice(models.Model):
         if self.status == "unpaid":
             try:
                 inv = LightningRpc(settings.LIGHTNING_RPC).listinvoices(self.label)
+
                 inv_ln = inv['invoices'][0]
                 if inv_ln['status'] == "expired":
                     self.status = inv_ln['status']
@@ -44,3 +45,5 @@ class Invoice(models.Model):
                 return self.status
             except:
                 return '-'
+        else:
+            return self.status
