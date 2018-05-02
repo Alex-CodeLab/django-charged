@@ -31,13 +31,16 @@ class Invoice(models.Model):
 
     def current_status(self):
         if self.status == "unpaid":
-            inv = LightningRpc(settings.LIGHTNING_RPC).listinvoices(self.label)
-            inv_ln = inv['invoices'][0]
-            if inv_ln['status'] == "expired":
-                self.status = inv_ln['status']
-            if inv_ln['status'] == "paid":
-                self.status = inv_ln['status']
-                self.paid_at = datetime.fromtimestamp(inv_ln['paid_at'], timezone.utc)
-                self.pay_index = inv_ln['pay_index']
-            self.save()
-        return self.status
+            try:
+                inv = LightningRpc(settings.LIGHTNING_RPC).listinvoices(self.label)
+                inv_ln = inv['invoices'][0]
+                if inv_ln['status'] == "expired":
+                    self.status = inv_ln['status']
+                if inv_ln['status'] == "paid":
+                    self.status = inv_ln['status']
+                    self.paid_at = datetime.fromtimestamp(inv_ln['paid_at'], timezone.utc)
+                    self.pay_index = inv_ln['pay_index']
+                self.save()
+                return self.status
+            except:
+                return '-'
