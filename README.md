@@ -2,6 +2,9 @@
 Django-charged is a REST / websocket app that allows
 (bitcoin) lightningd integration into a Django project
 
+-- proof of concept. Do not use in production -- 
+
+
  [demo](https://vimeo.com/264287111)
  
 
